@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "job_skill")
 public class JobSkill {
@@ -103,5 +105,18 @@ public class JobSkill {
                 ", moreInfos='" + moreInfos + '\'' +
                 ", skillLevel=" + skillLevel +
                 '}';
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JobSkill jobSkill)) return false;
+
+        return Objects.equals(id, jobSkill.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

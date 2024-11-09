@@ -9,46 +9,58 @@
 <body>
 <div class="container">
     <h2 class="my-4">Update This Job</h2>
-        <form th:action="@{/company/update-job/{jobId}/{skillId}(jobId=${job.getId()}, skillId=${skill.getId()})}" method="post">
-            <div class="mb-3" th:object="${job}">
-                <label for="jobName" class="form-label">Job Name</label>
-                <input type="text" class="form-control" id="jobName" th:field="*{jobName}" required>
-            </div>
-            <div class="mb-3" th:object="${job}">
-                <label for="jobDesc" class="form-label">Description</label>
-                <input type="text" class="form-control" id="jobDesc" th:field="*{jobDesc}" required>
-            </div>
-            <div class="mb-3" th:object="${skill}">
-                <label for="skillName" class="form-label">Skill Name</label>
-                <input type="text" class="form-control" id="skillName" th:field="*{skillName}">
-            </div>
-            <div class="mb-3" th:object="${skill}">
-                <label for="skillDesc" class="form-label">Skill Description</label>
-                <input type="text" class="form-control" id="skillDesc" th:field="*{skillDescription}">
-            </div>
+    <form th:action="@{/company/update-job}" method="post">
+        <input type="hidden" name="jobId" th:value="${job.id}" />
+        <input type="hidden" name="skillId" th:value="${skill.id}" />
 
-            <div class="mb-3" th:object="${skill}">
-                <label for="skillType" class="form-label">Skill Level</label>
-                <select class="form-select" id="skillType" th:field="*{type}">
-                    <option th:each="skillType : ${allSkillTypes}" th:value="${skillType}" th:text="${skillType.name()}"></option>
-                </select>
-            </div>
+        <div class="mb-3" th:object="${job}">
+            <label for="jobId" class="form-label">Job ID</label>
+            <input type="text" id="jobId" class="form-control" th:field="*{id}" readonly />
+        </div>
 
-            <div class="mb-3" th:object="${jobSkill}">
-                <label for="skillLevel" class="form-label">Skill Level</label>
-                <select class="form-select" id="skillLevel" th:field="*{skillLevel}">
-                    <option th:each="skill : ${allSkills}" th:value="${skill}" th:text="${skill.name()}"></option>
-                </select>
-            </div>
+        <div class="mb-3" th:object="${job}">
+            <label for="jobName" class="form-label">Job Name</label>
+            <input type="text" id="jobName" class="form-control" th:field="*{jobName}" required />
+        </div>
 
-            <div class="mb-3" th:object="${jobSkill}">
-                <label for="moreInfo" class="form-label">More Info</label>
-                <input type="text" class="form-control" id="moreInfo" th:field="*{moreInfos}">
-            </div>
+        <div class="mb-3" th:object="${job}">
+            <label for="jobDesc" class="form-label">Description</label>
+            <input type="text" id="jobDesc" class="form-control" th:field="*{jobDesc}" required />
+        </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
 
-        </form>
+        <div class="mb-3" th:object="${skill}">
+            <label for="skillName" class="form-label">Skill Name</label>
+            <input type="text" id="skillName" class="form-control" th:field="*{skillName}" required />
+        </div>
+
+        <div class="mb-3" th:object="${skill}">
+            <label for="skillDesc" class="form-label">Skill Description</label>
+            <input type="text" id="skillDesc" class="form-control" th:field="*{skillDescription}" required />
+        </div>
+
+        <div class="mb-3" th:object="${skill}">
+            <label for="skillType" class="form-label">Skill Type</label>
+            <select id="skillType" class="form-select" th:field="*{type}">
+                <option th:each="skillType : ${allSkillTypes}" th:value="${skillType}" th:text="${skillType.name()}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3" th:object="${jobSkill}">
+            <label for="skillLevel" class="form-label">Skill Level</label>
+            <select id="skillLevel" class="form-select" th:field="*{skillLevel}">
+                <option th:each="level : ${allSkills}" th:value="${level}" th:text="${level.name()}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3" th:object="${jobSkill}">
+            <label for="moreInfo" class="form-label">More Info</label>
+            <input type="text" id="moreInfo" class="form-control" th:field="*{moreInfos}" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 </div>
+
 </body>
 </html>

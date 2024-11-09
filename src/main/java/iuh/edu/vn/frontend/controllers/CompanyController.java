@@ -11,6 +11,7 @@ import iuh.edu.vn.backend.services.ICompany;
 import iuh.edu.vn.backend.services.IJob;
 import iuh.edu.vn.backend.services.IJobSkill;
 import iuh.edu.vn.backend.services.ISkill;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -44,13 +45,15 @@ public class CompanyController {
     private JobSkillRepository jobSkillRepository;
 
     @GetMapping()
-    public String viewCompanyJobs(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
+    public String viewCompanyJobs(Model model, @RequestParam(value = "keyword", required = false) String keyword, HttpSession session) {
+        String email = (String) session.getAttribute("email");
         List<JobSkill> jobs;
         if (keyword != null && !keyword.isEmpty()) {
             jobs = iJobSkill.searchJobsByNameOrCompany(keyword);
         } else {
             jobs = iJobSkill.findAllJobAndSkill();
         }
+        model.addAttribute("companies", iCompany.findNameByEmail(email));
         model.addAttribute("jobs", jobs);
         model.addAttribute("keyword", keyword);
         return "companies/company_job_list";
@@ -67,6 +70,7 @@ public class CompanyController {
     }
 
 //    Them ham cap nhat cong viec da chon
+//    Dang bi bug
     @GetMapping("/update-job/{jobId}/{skillId}")
     public String showUpdateForm(@PathVariable("jobId") Long jobId, @PathVariable("skillId") Long skillId, Model model) {
         Job job = iJob.findById(jobId);
@@ -79,6 +83,7 @@ public class CompanyController {
             model.addAttribute("job", job);
             model.addAttribute("skill", skill);
             model.addAttribute("jobSkill", jobSkill);
+            model.addAttribute("jobSkillId", jobSkillId);
             model.addAttribute("allSkills", SkillLevel.values());
             model.addAttribute("allSkillTypes", SkillType.values());
             return "companies/update_job";
@@ -87,15 +92,29 @@ public class CompanyController {
         }
     }
 
-    //Update job theo jobID, skillID va jobSkillID da chon
-    @PostMapping("/update-job/{jobId}/{skillId}")
-    public String updateJob(@PathVariable("jobId") Long jobId, @PathVariable("skillId") Long skillId, @ModelAttribute("job") Job job, @ModelAttribute("skill") Skill skill, @ModelAttribute("jobSkill") JobSkill jobSkill) {
+    @PostMapping("/update-job")
+    public String updateJob(
+            @ModelAttribute("job") Job job,
+            @ModelAttribute("skill") Skill skill,
+            @RequestParam(value = "jobId") Long jobId,
+            @RequestParam(value = "skillId") Long skillId,
+            @RequestParam("skillLevel") SkillLevel skillLevel,
+            @RequestParam("moreInfos") String moreInfos) {
+
+        job.setId(jobId);
+        skill.setId(skillId);
+
         JobSkillId jobSkillId = new JobSkillId(jobId, skillId);
-        iJob.update(job);
-        iSkill.update(skill);
-        iJobSkill.update(new JobSkill(job, skill, jobSkillId, jobSkill.getSkillLevel()));
+        JobSkill jobSkill = new JobSkill(job, skill, jobSkillId, skillLevel);
+        jobSkill.setMoreInfos(moreInfos);
+
+        jobRepository.save(job);
+        skillRepository.save(skill);
+        jobSkillRepository.save(jobSkill);
+
         return "redirect:/company";
     }
+
 
     @PostMapping
     public String saveJob(@ModelAttribute("job") Job job, @ModelAttribute("skill") Skill skill, @ModelAttribute("jobSkill") JobSkill jobSkill) {
@@ -134,6 +153,12 @@ public class CompanyController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         return "companies/company_job_list_paging";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
 

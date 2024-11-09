@@ -11,6 +11,15 @@
     <div class="container">
         <h1>Find Your Dream Job</h1>
         <p class="lead">Explore thousands of job listings in various fields</p>
+
+        <div class="d-flex justify-content-center mt-4" th:each="company : ${companies}">
+            <strong th:text="'Hello: ' + (${companies.getCompName()}) + '. This is company page!'"></strong>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a href="/company/logout" class="btn btn-danger">Logout</a>
+        </div>
+
         <div class="d-flex justify-content-center mt-4">
             <a class="btn btn-success mb-4" href="/company/new">Post a New Job</a>
         </div>
