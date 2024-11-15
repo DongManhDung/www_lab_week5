@@ -14,6 +14,9 @@ import iuh.edu.vn.backend.services.ISkill;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,20 +47,60 @@ public class CompanyController {
     @Autowired
     private JobSkillRepository jobSkillRepository;
 
-    @GetMapping()
-    public String viewCompanyJobs(Model model, @RequestParam(value = "keyword", required = false) String keyword, HttpSession session) {
+//    @GetMapping()
+//    public String viewCompanyJobs(Model model, @RequestParam(value = "keyword", required = false) String keyword, HttpSession session) {
+//        String email = (String) session.getAttribute("email");
+//        List<JobSkill> jobs;
+//        if (keyword != null && !keyword.isEmpty()) {
+//            jobs = iJobSkill.searchJobsByNameOrCompany(keyword);
+//        } else {
+//            jobs = iJobSkill.findAllJobAndSkill();
+//        }
+//        model.addAttribute("companies", iCompany.findNameByEmail(email));
+//        model.addAttribute("jobs", jobs);
+//        model.addAttribute("keyword", keyword);
+//        return "companies/company_job_list";
+//    }
+
+    @GetMapping("/jobs")
+    public String viewCompanyJobs(Model model,
+                                  HttpSession session,
+                                  @RequestParam("keyword") Optional<String> keyword,
+                                  @RequestParam("page") Optional<Integer> page,
+                                  @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(12);
         String email = (String) session.getAttribute("email");
-        List<JobSkill> jobs;
-        if (keyword != null && !keyword.isEmpty()) {
-            jobs = iJobSkill.searchJobsByNameOrCompany(keyword);
+
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("job.jobName").ascending());
+        Page<JobSkill> jobSkillPage;
+
+        if (keyword.isPresent() && !keyword.get().isEmpty()) {
+            jobSkillPage = iJobSkill.searchJobsByNameOrCompany(email, keyword.get(), pageable);
+            model.addAttribute("keyword", keyword.get());
         } else {
-            jobs = iJobSkill.findAllJobAndSkill();
+            jobSkillPage = iJobSkill.findAllJobAndSkillPage(email, pageable);
         }
+
         model.addAttribute("companies", iCompany.findNameByEmail(email));
-        model.addAttribute("jobs", jobs);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("jobSkillPage", jobSkillPage);
+
+        int totalPages = jobSkillPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
         return "companies/company_job_list";
     }
+
+
+
+
+
+
 
     @GetMapping("/new")
     public String showJobForm(Model model) {
@@ -134,26 +177,26 @@ public class CompanyController {
     }
 
     //Paging Controller
-    @GetMapping("/listJobPage")
-    public String showJobListPaging(Model model,
-                                          @RequestParam("page") Optional<Integer> page,
-                                          @RequestParam("size") Optional<Integer> size) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(12);
-        Page<JobSkill> jobPage = (Page<JobSkill>) iJobSkill.findAllJobAndSkillPage(currentPage - 1, pageSize, "id" , "asc");
-
-
-        model.addAttribute("jobPage", jobPage);
-
-        int totalPages = jobPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-        return "companies/company_job_list_paging";
-    }
+//    @GetMapping("/listJobPage")
+//    public String showJobListPaging(Model model,
+//                                          @RequestParam("page") Optional<Integer> page,
+//                                          @RequestParam("size") Optional<Integer> size) {
+//        int currentPage = page.orElse(1);
+//        int pageSize = size.orElse(12);
+//        Page<JobSkill> jobPage = (Page<JobSkill>) iJobSkill.findAllJobAndSkillPage(currentPage - 1, pageSize, "id" , "asc");
+//
+//
+//        model.addAttribute("jobPage", jobPage);
+//
+//        int totalPages = jobPage.getTotalPages();
+//        if (totalPages > 0) {
+//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+//                    .boxed()
+//                    .collect(Collectors.toList());
+//            model.addAttribute("pageNumbers", pageNumbers);
+//        }
+//        return "companies/company_job_list_paging";
+//    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

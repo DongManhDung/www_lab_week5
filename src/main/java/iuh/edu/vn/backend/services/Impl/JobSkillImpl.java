@@ -41,15 +41,15 @@ public class JobSkillImpl implements IJobSkill {
     }
 
     @Override
-    public Page<JobSkill> findAllJobAndSkillPage(int pageNo, int pageSize, String sortBy, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        return jobSkillRepository.findAllJobAndSkillPage(pageable);
+    public Page<JobSkill> findAllJobAndSkillPage(String email, Pageable pageable) {
+        return jobSkillRepository.findAllJobAndSkillPage(email, pageable);
     }
 
+
+
     @Override
-    public List<JobSkill> searchJobsByNameOrCompany(String keyword) {
-        return jobSkillRepository.findByJobNameContainingIgnoreCaseOrCompanyContainingIgnoreCase(keyword);
+    public Page<JobSkill> searchJobsByNameOrCompany(String email, String keyword, Pageable pageable) {
+        return jobSkillRepository.findByJobNameContainingIgnoreCaseOrCompanyContainingIgnoreCase(email, keyword, pageable);
     }
 
 //    @Override

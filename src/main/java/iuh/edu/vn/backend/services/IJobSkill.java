@@ -12,9 +12,10 @@ public interface IJobSkill {
     public void delete(JobSkillId id);
     public void add(JobSkill jobSkill);
     public void update(JobSkill jobSkill);
-    public Page<JobSkill> findAllJobAndSkillPage(int pageNo, int pageSize, String sortBy,
-    String sortDirection);
-    public List<JobSkill> searchJobsByNameOrCompany(String keyword);
+
+    Page<JobSkill> findAllJobAndSkillPage(String email, Pageable pageable);
+
+    Page<JobSkill> searchJobsByNameOrCompany(String email, String keyword, Pageable pageable);
 //    public List<JobSkill> findJobSkillSuitableWithCandidate(String email);
     Page<JobSkill> findJobSkillSuitableWithCandidate(String email, Pageable pageable);
 
