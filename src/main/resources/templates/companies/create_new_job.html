@@ -23,6 +23,14 @@
 <div class="container">
   <h2 class="my-4">Post a New Job</h2>
   <form th:action="@{/company}" method="post">
+
+    <input type="hidden" name="jobId" th:value="${companyID.id}" />
+
+<!--    <div class="mb-3" th:object="${job}">-->
+<!--      <label for="companyId" class="form-label">Company ID:</label>-->
+<!--      <input type="text"  class="form-control" id="companyId" th:value="${companyID.id}" >-->
+<!--    </div>-->
+
     <div class="mb-3" th:object="${job}">
       <label for="jobName" class="form-label">Job Name</label>
       <input type="text" class="form-control" id="jobName" th:field="*{jobName}" required>

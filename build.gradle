@@ -33,6 +33,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-rest-core
     implementation 'org.springframework.data:spring-data-rest-core:4.3.5'
 
+    // https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable
+    implementation 'nz.ac.waikato.cms.weka:weka-stable:3.8.6'
+
+
 }
 
 tasks.named('test') {

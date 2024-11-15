@@ -4,6 +4,7 @@ import iuh.edu.vn.backend.enums.SkillLevel;
 import iuh.edu.vn.backend.enums.SkillType;
 import iuh.edu.vn.backend.ids.JobSkillId;
 import iuh.edu.vn.backend.models.*;
+import iuh.edu.vn.backend.repositories.CompanyRepository;
 import iuh.edu.vn.backend.repositories.JobRepository;
 import iuh.edu.vn.backend.repositories.JobSkillRepository;
 import iuh.edu.vn.backend.repositories.SkillRepository;
@@ -46,6 +47,8 @@ public class CompanyController {
     private SkillRepository skillRepository;
     @Autowired
     private JobSkillRepository jobSkillRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
 
 //    @GetMapping()
 //    public String viewCompanyJobs(Model model, @RequestParam(value = "keyword", required = false) String keyword, HttpSession session) {
@@ -62,7 +65,7 @@ public class CompanyController {
 //        return "companies/company_job_list";
 //    }
 
-    @GetMapping("/jobs")
+    @GetMapping()
     public String viewCompanyJobs(Model model,
                                   HttpSession session,
                                   @RequestParam("keyword") Optional<String> keyword,
@@ -102,8 +105,9 @@ public class CompanyController {
 
 
 
-    @GetMapping("/new")
-    public String showJobForm(Model model) {
+    @GetMapping("/new/{companyId}")
+    public String showJobForm(Model model, @PathVariable("companyId") Long companyId) {
+        model.addAttribute("companyID", companyRepository.findById(companyId).get());
         model.addAttribute("job", new Job());
         model.addAttribute("skill", new Skill());
         model.addAttribute("jobSkill", new JobSkill());
@@ -112,17 +116,19 @@ public class CompanyController {
         return "companies/create_new_job";
     }
 
-//    Them ham cap nhat cong viec da chon
-//    Dang bi bug
-    @GetMapping("/update-job/{jobId}/{skillId}")
-    public String showUpdateForm(@PathVariable("jobId") Long jobId, @PathVariable("skillId") Long skillId, Model model) {
+//    Them trang cap nhat cong viec da chon
+    @GetMapping("/update-job/{jobId}/{skillId}/{companyId}")
+    public String showUpdateForm(@PathVariable("jobId") Long jobId, @PathVariable("skillId") Long skillId, @PathVariable("companyId") Long companyId, Model model) {
         Job job = iJob.findById(jobId);
         Skill skill = iSkill.findById(skillId);
 
         JobSkillId jobSkillId = new JobSkillId(jobId, skillId);
         JobSkill jobSkill = iJobSkill.findById(jobSkillId);
 
+
+
         if (job != null && skill != null && jobSkill != null) {
+            model.addAttribute("companyID", companyRepository.findById(companyId).get());
             model.addAttribute("job", job);
             model.addAttribute("skill", skill);
             model.addAttribute("jobSkill", jobSkill);
@@ -140,12 +146,14 @@ public class CompanyController {
             @ModelAttribute("job") Job job,
             @ModelAttribute("skill") Skill skill,
             @RequestParam(value = "jobId") Long jobId,
+            @RequestParam("companyId") String companyId,
             @RequestParam(value = "skillId") Long skillId,
             @RequestParam("skillLevel") SkillLevel skillLevel,
             @RequestParam("moreInfos") String moreInfos) {
 
         job.setId(jobId);
         skill.setId(skillId);
+        job.setCompany(companyRepository.findById(Long.parseLong(companyId)).get());
 
         JobSkillId jobSkillId = new JobSkillId(jobId, skillId);
         JobSkill jobSkill = new JobSkill(job, skill, jobSkillId, skillLevel);
@@ -158,10 +166,11 @@ public class CompanyController {
         return "redirect:/company";
     }
 
-
+    //add job
     @PostMapping
-    public String saveJob(@ModelAttribute("job") Job job, @ModelAttribute("skill") Skill skill, @ModelAttribute("jobSkill") JobSkill jobSkill) {
+    public String saveJob(@RequestParam("jobId") String id,@ModelAttribute("job") Job job, @ModelAttribute("skill") Skill skill, @ModelAttribute("jobSkill") JobSkill jobSkill) {
         JobSkillId jobSkillId = new JobSkillId(job.getId(), skill.getId());
+        job.setCompany(companyRepository.findById(Long.parseLong(id)).get());
         jobRepository.save(job);
         skillRepository.save(skill);
         jobSkillRepository.save(new JobSkill(job, skill, jobSkillId, jobSkill.getSkillLevel()));
@@ -175,28 +184,6 @@ public class CompanyController {
         iJobSkill.delete(jobSkillId);
         return "redirect:/company";
     }
-
-    //Paging Controller
-//    @GetMapping("/listJobPage")
-//    public String showJobListPaging(Model model,
-//                                          @RequestParam("page") Optional<Integer> page,
-//                                          @RequestParam("size") Optional<Integer> size) {
-//        int currentPage = page.orElse(1);
-//        int pageSize = size.orElse(12);
-//        Page<JobSkill> jobPage = (Page<JobSkill>) iJobSkill.findAllJobAndSkillPage(currentPage - 1, pageSize, "id" , "asc");
-//
-//
-//        model.addAttribute("jobPage", jobPage);
-//
-//        int totalPages = jobPage.getTotalPages();
-//        if (totalPages > 0) {
-//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                    .boxed()
-//                    .collect(Collectors.toList());
-//            model.addAttribute("pageNumbers", pageNumbers);
-//        }
-//        return "companies/company_job_list_paging";
-//    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

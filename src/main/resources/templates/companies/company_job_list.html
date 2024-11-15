@@ -31,8 +31,8 @@
         <div th:each="company : ${companies}" style="display: flex; flex-direction: row; justify-content: center; align-items: center">
             <strong th:text="'Hello: ' + (${companies.getCompName()}) + '. This is company page!'"></strong>
         </div>
-        <div>
-            <a href="/company/new" class="text-white mx-3">Post a New Job</a>
+        <div th:each="company : ${companies}">
+            <a th:href="@{/company/new/{companyId}(companyId=${companies.id})}" class="text-white mx-3">Post a New Job</a>
             <a href="/company/logout" class="text-white mx-3 btn btn-danger">Logout</a>
 <!--            <a href="#" class="text-white mx-3">Candidates</a>-->
 <!--            <a href="#" class="text-white mx-3">Employers</a>-->
@@ -61,7 +61,7 @@
                     <p class="card-text">Skill level: <strong th:text="${jobSkill.skillLevel}"></strong></p>
                     <a href="#" class="btn btn-primary">View Details</a>
                     <div class="d-flex justify-content-between">
-                        <a class="btn btn-warning btn-sm me-1" th:href="@{/company/update-job/{jobId}/{skillId}(jobId=${jobSkill.job.id}, skillId=${jobSkill.skill.id})}">Update</a>
+                        <a class="btn btn-warning btn-sm me-1" th:href="@{/company/update-job/{jobId}/{skillId}/{companyId}(jobId=${jobSkill.job.id}, skillId=${jobSkill.skill.id}, companyId=${companies.id})}">Update</a>
                         <a class="btn btn-danger btn-sm" th:href="@{/company/delete/{jobId}/{skillId}(jobId=${jobSkill.job.id}, skillId=${jobSkill.skill.id})}" onclick="return confirm('Are you sure you want to delete this job?')">Delete</a>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
     <!-- Paging container -->
     <div class="inline" style="width: 100%; height: 50px; justify-content: center; align-items: center; flex-direction: row; display: flex">
         <div style="width: 50%; height: 100%" th:if="${jobSkillPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
-            <a th:href="@{/company/jobs(size=${jobSkillPage.size}, page=${pageNumber}, keyword=${keyword})}"
+            <a th:href="@{/company(size=${jobSkillPage.size}, page=${pageNumber}, keyword=${keyword})}"
                th:text="${pageNumber}"
                th:class="${pageNumber == jobSkillPage.number + 1} ? 'active' : ''"></a>
         </div>

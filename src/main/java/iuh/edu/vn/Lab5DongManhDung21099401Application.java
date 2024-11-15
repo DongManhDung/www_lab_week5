@@ -30,7 +30,7 @@ public class Lab5DongManhDung21099401Application {
     private CandidateRepository candidateRepository;
 
     @Autowired
-    private CompanyRepository   companyRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
     private JobRepository jobRepository;
@@ -45,7 +45,7 @@ public class Lab5DongManhDung21099401Application {
     private CandidateSkillRepository candidateSkillRepository;
 
 //    @Bean
-//    CommandLineRunner initData(){
+//    CommandLineRunner initData() {
 //        return args -> {
 //            String jobNames[] = {"Frontend", "Backend", "Data Analyst", "Business Analyst", "Designer", "Developer"};
 //            String skillNames[] = {"React", "Vue", "Angular", "Figma", "React Native", "NextJS", "PHP", "HTML", "CSS", "JavaScript", "C Sharp", "C++", "Jira", "Ajax", "JSP"};
@@ -54,7 +54,7 @@ public class Lab5DongManhDung21099401Application {
 //            Random rnd = new Random();
 //            for (int i = 1; i < 1000; i++) {
 //                Address add = new Address("Quang Trung", "HCM",
-//                      (short) CountryCode.VN.getNumeric(),
+//                        (short) CountryCode.VN.getNumeric(),
 //                        rnd.nextInt(70000, 80000) + "", CountryCode.VN.toString());
 //                addressRepository.save(add);
 //
@@ -64,61 +64,55 @@ public class Lab5DongManhDung21099401Application {
 //                        LocalDate.of(1998, rnd.nextInt(1, 13), rnd.nextInt(1, 29)),
 //                        "email_" + i + "@gmail.com", candidateNames[rnd.nextInt(candidateNames.length)], rnd.nextLong(1111111111L, 9999999999L) + "", address);
 //                candidateRepository.save(can);
-//           }
+//            }
 //            //Add company
-//            for (int i = 1; i < 20; i ++){
-//                Company com = new Company(addressRepository.findById((long) i).orElse(null),"www.timviec.vn", "0909090909", companies[rnd.nextInt(companies.length)], "company_" + i + "@gmail.com", "About company #" + i);
+//            for (int i = 1; i <= companies.length; i++) {
+//                Company com = new Company(addressRepository.findById((long) i).orElse(null), "www.timviec.vn", "0909090909", companies[i - 1], "company_" + i + "@gmail.com", "About company #" + i);
 //                companyRepository.save(com);
 //            }
 //
 //
 ////            Add job
 //            companyRepository.findAll().forEach(company -> {
-//                for(int i = 1; i < 6; i++){
+//                for (int i = 1; i <= 6; i++) {
 //                    String randomJobNames = jobNames[rnd.nextInt(jobNames.length)];
-//                   Job job = new Job(randomJobNames, "Job description #" + i, company);
-//                   jobRepository.save(job);
+//                    Job job = new Job(randomJobNames, "Job description #" + i, company);
+//                    jobRepository.save(job);
 //                }
-//           });
+//            });
 //
-//                //               Add skill
-//               for (int i = 1; i < 20; i++) {
-//                    SkillType type = SkillType.values()[rnd.nextInt(SkillType.values().length)];
-//                    Skill skill = new Skill("Skill description #" + i, skillNames[rnd.nextInt(skillNames.length)], type);
-//                    skillRepository.save(skill);
-//               }
+//            // Add Skill
+//            for (int i = 1; i <= skillNames.length; i++) {
+//                SkillType type = SkillType.values()[rnd.nextInt(SkillType.values().length)];
+//                Skill skill = new Skill("Skill description #" + i, skillNames[i - 1], type);
+//                skillRepository.save(skill);
+//            }
 //
-//////                Bug here :))
-//                //                Add JobSkill
-//                jobRepository.findAll().forEach(job -> {
-//                    for (int i = 1; i < 5; i++) {
-//                        Skill skill = skillRepository.findById((long) i).orElse(null);
-//                        JobSkillId jobSkillId = new JobSkillId(job.getId(), skill.getId());
-//                        JobSkill jobSkill = new JobSkill(jobSkillId, job, skill, "More info #" + i, SkillLevel.values()[rnd.nextInt(SkillType.values().length)]);
-//                        jobSkillRepository.save(jobSkill);
-//                    }
-//                });
-//
-////                Add candidate skill
-//                for (int i = 1; i < 50; i++){
-//                    Candidate candidate = candidateRepository.findById((long) i).orElse(null);
-//                    if(candidate != null){
-//                        List<Long> skills = new ArrayList<>();
-//                        for(long id = 1; id < 20; id++){
-//                            skills.add(id);
-//                        }
-//                        Collections.shuffle(skills);
-////     //Add 5 random skills to candidate
-//                       for(int j = 0; j < 5 && j < skills.size(); j++){
-//                            Long skillId = skills.get(j);
-//                            CandidateSkillId candidateSkillId = new CandidateSkillId(candidate.getId(), skillId);
-//
-//                           CandidateSkill candidateSkill =
-//                                  new CandidateSkill(candidateSkillId, candidate, skillRepository.findById(skillId).orElse(null) , "More info" + i, SkillLevel.values()[rnd.nextInt(SkillLevel.values().length)]);
-//                            candidateSkillRepository.save(candidateSkill);
-//                        }
-//                    }
+//            // Add JobSkill
+//            jobRepository.findAll().forEach(job -> {
+//                List<Skill> skills = skillRepository.findAll();
+//                Collections.shuffle(skills); // Shuffle danh sách skill
+//                for (int i = 0; i < Math.min(skills.size(), 10); i++) { // Add tối đa 10 skill vào mỗi job
+//                    Skill skill = skills.get(i);
+//                    JobSkillId jobSkillId = new JobSkillId(job.getId(), skill.getId());
+//                    JobSkill jobSkill = new JobSkill(jobSkillId, job, skill, "More info #" + i, SkillLevel.values()[rnd.nextInt(SkillLevel.values().length)]);
+//                    jobSkillRepository.save(jobSkill);
 //                }
-//            };
+//            });
+//
+//            // Add CandidateSkill
+//            candidateRepository.findAll().forEach(candidate -> {
+//                List<Skill> skills = skillRepository.findAll();
+//                Collections.shuffle(skills); // Shuffle danh sách skill
+//                for (int i = 0; i < Math.min(skills.size(), 5); i++) { // Add tối đa 5 skill vào mỗi candidate
+//                    Skill skill = skills.get(i);
+//                    CandidateSkillId candidateSkillId = new CandidateSkillId(candidate.getId(), skill.getId());
+//                    CandidateSkill candidateSkill = new CandidateSkill(candidateSkillId, candidate, skill, "More info #" + i, SkillLevel.values()[rnd.nextInt(SkillLevel.values().length)]);
+//                    candidateSkillRepository.save(candidateSkill);
+//                }
+//            });
 //        };
-    }
+//    }
+
+    ;
+}

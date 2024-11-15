@@ -34,7 +34,7 @@ public class UserController {
         if (role.equals("company")) {
             if (companyImpl.existsByEmail(email)) {
                 session.setAttribute("email", email);
-                return "redirect:/company/jobs";
+                return "redirect:/company";
             } else {
                 model.addAttribute("error", "Email does not exist in the company system!");
                 return "login";

@@ -10,13 +10,14 @@
 <div class="container">
     <h2 class="my-4">Update This Job</h2>
     <form th:action="@{/company/update-job}" method="post">
+        <input type="hidden" name="companyId" th:value="${companyID.id}" />
         <input type="hidden" name="jobId" th:value="${job.id}" />
         <input type="hidden" name="skillId" th:value="${skill.id}" />
 
-        <div class="mb-3" th:object="${job}">
-            <label for="jobId" class="form-label">Job ID</label>
-            <input type="text" id="jobId" class="form-control" th:field="*{id}" readonly />
-        </div>
+<!--        <div class="mb-3" th:object="${job}">-->
+<!--            <label for="jobId" class="form-label">Job ID</label>-->
+<!--            <input type="text" id="jobId" class="form-control" th:field="*{id}" readonly />-->
+<!--        </div>-->
 
         <div class="mb-3" th:object="${job}">
             <label for="jobName" class="form-label">Job Name</label>
