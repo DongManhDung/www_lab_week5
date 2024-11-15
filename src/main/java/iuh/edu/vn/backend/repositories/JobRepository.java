@@ -16,7 +16,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Query("select j from Job j INNER JOIN " +
             "j.jobSkills js INNER JOIN " +
             "js.skill s INNER JOIN " +
-            "s.candidateSkills cs INNER JOIN cs.can c")
+            "s.candidateSkills cs INNER JOIN cs.can c ")
     public List<Job> getAllJobAndSkillSuitable(String email);
 
     @Query("select j from Job j where j.id = :id")

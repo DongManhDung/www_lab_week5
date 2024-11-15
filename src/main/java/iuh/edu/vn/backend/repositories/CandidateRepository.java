@@ -11,7 +11,7 @@ import java.util.List;
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
     boolean existsByEmail(String email);
 
-    @Query("SELECT c FROM Candidate c WHERE c.email = ?1")
+    @Query("SELECT distinct c FROM Candidate c WHERE c.email = ?1")
     public List<Candidate> getFullNameByEmail(String email);
 
 

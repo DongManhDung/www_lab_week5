@@ -22,9 +22,9 @@ public interface JobSkillRepository extends JpaRepository<JobSkill, JobSkillId> 
     @Query("SELECT j FROM JobSkill j  WHERE LOWER(j.job.jobName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(j.skill.skillName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     public List<JobSkill> findByJobNameContainingIgnoreCaseOrCompanyContainingIgnoreCase(@Param("keyword") String keyword);
 
-    @Query(value = "select js from JobSkill js INNER JOIN js.job j INNER JOIN js.skill s INNER JOIN js.skill.candidateSkills ck " +
+    @Query(value = "select distinct js from JobSkill js INNER JOIN js.job j INNER JOIN js.skill s INNER JOIN js.skill.candidateSkills ck " +
             "where ck.can.email = ?1")
-    public List<JobSkill> findJobSkillSuitableWithCandidate(String email);
+    Page<JobSkill> findJobSkillSuitableWithCandidate(String email, Pageable pageable);
 
 
 

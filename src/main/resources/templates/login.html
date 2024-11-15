@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header style="background-color: #00800d; color: white;" class="py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a th:href="@{index}" class="text-white font-weight-bold h5 m-0">
+            <img src="../img/logo.png" alt="Logo" style="height: 100%; object-fit: fill">
+        </a>
+        <div>
+            <a href="#" class="text-white mx-3">Find job</a>
+            <a href="#" class="text-white mx-3">Best Jobs</a>
+            <a href="#" class="text-white mx-3">Candidates</a>
+            <a href="#" class="text-white mx-3">Employers</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <h2 class="mt-5">Welcome! Please enter your email and select your role:</h2>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <form th:action="@{/check-role}" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" id="role" name="role" required>
+                <option value="company">Company</option>
+                <option value="candidate">Candidate</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

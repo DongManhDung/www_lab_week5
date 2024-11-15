@@ -1,5 +1,6 @@
 package iuh.edu.vn.backend.services.Impl;
 
+import iuh.edu.vn.backend.models.Candidate;
 import iuh.edu.vn.backend.models.JobSkill;
 import iuh.edu.vn.backend.ids.JobSkillId;
 import iuh.edu.vn.backend.repositories.JobSkillRepository;
@@ -51,9 +52,13 @@ public class JobSkillImpl implements IJobSkill {
         return jobSkillRepository.findByJobNameContainingIgnoreCaseOrCompanyContainingIgnoreCase(keyword);
     }
 
-    @Override
-    public List<JobSkill> findJobSkillSuitableWithCandidate(String email) {
-        return jobSkillRepository.findJobSkillSuitableWithCandidate(email);
+//    @Override
+//    public List<JobSkill> findJobSkillSuitableWithCandidate(String email) {
+//        return jobSkillRepository.findJobSkillSuitableWithCandidate(email);
+//    }
+
+    public Page<JobSkill> findJobSkillSuitableWithCandidate(String email, Pageable pageable) {
+        return jobSkillRepository.findJobSkillSuitableWithCandidate(email, pageable);
     }
 
     @Override

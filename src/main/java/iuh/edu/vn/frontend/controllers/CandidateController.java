@@ -1,15 +1,20 @@
 package iuh.edu.vn.frontend.controllers;
 
 import iuh.edu.vn.backend.models.Candidate;
+import iuh.edu.vn.backend.models.CandidateSkill;
+import iuh.edu.vn.backend.models.JobSkill;
 import iuh.edu.vn.backend.repositories.CandidateRepository;
 import iuh.edu.vn.backend.services.ICandidate;
 import iuh.edu.vn.backend.services.ICandidateSkill;
-import iuh.edu.vn.backend.services.IJob;
 import iuh.edu.vn.backend.services.IJobSkill;
 import iuh.edu.vn.backend.services.Impl.CandidateImpl;
+import iuh.edu.vn.backend.services.Impl.JobSkillImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +42,7 @@ public class CandidateController {
     @Autowired
     private IJobSkill iJobSkill;
 
+
     @Autowired
     private ICandidateSkill iCandidateSkill;
 
@@ -48,37 +54,59 @@ public class CandidateController {
         return mav;
     }
 
-    @GetMapping("/listCandidatePage")
-    public String showCandidateListPaging(Model model,
-                                          @RequestParam("page") Optional<Integer> page,
-                                          @RequestParam("size") Optional<Integer> size) {
+//    @GetMapping("/listCandidatePage")
+//    public String showCandidateListPaging(Model model,
+//                                          @RequestParam("page") Optional<Integer> page,
+//                                          @RequestParam("size") Optional<Integer> size) {
+//        int currentPage = page.orElse(1);
+//        int pageSize = size.orElse(10);
+//        Page<Candidate> candidatePage= candidateService.findAll(
+//                currentPage - 1,pageSize,"id","asc");
+//
+//
+//        model.addAttribute("candidatePage", candidatePage);
+//
+//        int totalPages = candidatePage.getTotalPages();
+//        if (totalPages > 0) {
+//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+//                    .boxed()
+//                    .collect(Collectors.toList());
+//            model.addAttribute("pageNumbers", pageNumbers);
+//        }
+//        return "candidates/candidate-paging";
+//    }
+
+
+    @GetMapping()
+    public String listCandidateHaveJobSkillSuitable(Model model,
+                                                    HttpSession session,
+                                                    @RequestParam("page") Optional<Integer> page,
+                                                    @RequestParam("size") Optional<Integer> size)
+    {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(10);
-        Page<Candidate> candidatePage= candidateService.findAll(
-                currentPage - 1,pageSize,"id","asc");
+        int pageSize = size.orElse(12);
+        String email = (String) session.getAttribute("email");
 
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("id").ascending());
+        Page<JobSkill> jobSkillPage = iJobSkill.findJobSkillSuitableWithCandidate(email, pageable);
 
-        model.addAttribute("candidatePage", candidatePage);
+        System.out.println("jobSkillPage: " + jobSkillPage.getContent().size());
 
-        int totalPages = candidatePage.getTotalPages();
+        model.addAttribute("candidates", iCandidate.getFullNameByEmail(email));
+        model.addAttribute("candidateSkills", iCandidateSkill.findCandidateSkillByEmail(email));
+        model.addAttribute("jobSkillPage", jobSkillPage);
+
+        int totalPages = jobSkillPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
-        return "candidates/candidate-paging";
-    }
 
-
-    @GetMapping({"/listJobSkillVerySuitable", "", "index", "default"})
-    public String listCandidateHaveJobSkillSuitable(Model model, HttpSession session){
-        String email = (String) session.getAttribute("email");
-        model.addAttribute("candidates", iCandidate.getFullNameByEmail(email));
-        model.addAttribute("candidateSkills", iCandidateSkill.findCandidateSkillByEmail(email));
-        model.addAttribute("jobSkills", iJobSkill.findJobSkillSuitableWithCandidate(email));
         return "candidates/candidate_job_list";
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

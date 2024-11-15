@@ -37,18 +37,17 @@ public class UserController {
                 return "redirect:/company";
             } else {
                 model.addAttribute("error", "Email does not exist in the company system!");
-                return "index";
+                return "login";
             }
         } else if (role.equals("candidate")) {
             if (candidateImpl.existsByEmail(email)) {
                 session.setAttribute("email", email);
-                return "redirect:/candidates/listJobSkillVerySuitable";
+                return "redirect:/candidates";
             } else {
                 model.addAttribute("error", "Email does not exist in the candidate system!");
-                return "index";
+                return "login";
             }
         }
-        model.addAttribute("error", "Vai trò không hợp lệ.");
-        return "index";
+        return "login";
     }
 }

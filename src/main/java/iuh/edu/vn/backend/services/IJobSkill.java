@@ -3,6 +3,7 @@ package iuh.edu.vn.backend.services;
 import iuh.edu.vn.backend.models.JobSkill;
 import iuh.edu.vn.backend.ids.JobSkillId;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public interface IJobSkill {
     public Page<JobSkill> findAllJobAndSkillPage(int pageNo, int pageSize, String sortBy,
     String sortDirection);
     public List<JobSkill> searchJobsByNameOrCompany(String keyword);
-    public List<JobSkill> findJobSkillSuitableWithCandidate(String email);
+//    public List<JobSkill> findJobSkillSuitableWithCandidate(String email);
+    Page<JobSkill> findJobSkillSuitableWithCandidate(String email, Pageable pageable);
 
     JobSkill findById(JobSkillId jobSkillId);
 }
