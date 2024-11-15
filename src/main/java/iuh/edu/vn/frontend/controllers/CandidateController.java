@@ -47,35 +47,12 @@ public class CandidateController {
     private ICandidateSkill iCandidateSkill;
 
 
-    @GetMapping({"/listCandidate"})
-    public ModelAndView showCandidateList(){
-        ModelAndView mav = new ModelAndView("candidates/candidates");
-        mav.addObject("candidates", candidateRepository.findAll());
-        return mav;
-    }
-
-//    @GetMapping("/listCandidatePage")
-//    public String showCandidateListPaging(Model model,
-//                                          @RequestParam("page") Optional<Integer> page,
-//                                          @RequestParam("size") Optional<Integer> size) {
-//        int currentPage = page.orElse(1);
-//        int pageSize = size.orElse(10);
-//        Page<Candidate> candidatePage= candidateService.findAll(
-//                currentPage - 1,pageSize,"id","asc");
-//
-//
-//        model.addAttribute("candidatePage", candidatePage);
-//
-//        int totalPages = candidatePage.getTotalPages();
-//        if (totalPages > 0) {
-//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                    .boxed()
-//                    .collect(Collectors.toList());
-//            model.addAttribute("pageNumbers", pageNumbers);
-//        }
-//        return "candidates/candidate-paging";
+//    @GetMapping({"/listCandidate"})
+//    public ModelAndView showCandidateList(){
+//        ModelAndView mav = new ModelAndView("candidates/candidates");
+//        mav.addObject("candidates", candidateRepository.findAll());
+//        return mav;
 //    }
-
 
     @GetMapping()
     public String listCandidateHaveJobSkillSuitable(Model model,

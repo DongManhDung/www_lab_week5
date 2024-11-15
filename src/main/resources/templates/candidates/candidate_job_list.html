@@ -48,6 +48,20 @@
     </div>
 </header>
 
+<div class="container mt-3 d-flex justify-content-flex-start">
+    <div class="card p-3" style="width: auto; max-width: 400px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <div class="card-body">
+            <h5 class="card-title text-center">Candidate Information</h5>
+            <div th:each="candidate : ${candidates}">
+                <p class="card-text">Full Name: <strong th:text="${candidate.getFullName()}"></strong></p>
+                <p class="card-text">Date of Birth: <strong th:text="${#temporals.format(candidate.dob, 'dd/MM/yyyy')}"></strong></p>
+                <p class="card-text">Phone: <strong th:text="${candidate.phone}"></strong></p>
+                <p class="card-text">Email: <strong th:text="${candidate.email}"></strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container my-5">
     <h2>List of jobs suitable for you</h2>
     <div class="row">

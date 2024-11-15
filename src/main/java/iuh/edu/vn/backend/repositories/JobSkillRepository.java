@@ -27,7 +27,7 @@ public interface JobSkillRepository extends JpaRepository<JobSkill, JobSkillId> 
 
 
 
-    @Query(value = "select distinct js from JobSkill js INNER JOIN js.job j INNER JOIN js.skill s INNER JOIN js.skill.candidateSkills ck " +
+    @Query(value = "select distinct js from JobSkill js INNER JOIN js.job j INNER JOIN js.skill s INNER JOIN js.skill.candidateSkills ck INNER JOIN js.job.company c " +
             "where ck.can.email = ?1")
     Page<JobSkill> findJobSkillSuitableWithCandidate(String email, Pageable pageable);
 
