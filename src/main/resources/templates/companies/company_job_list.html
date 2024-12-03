@@ -31,18 +31,41 @@
         <div th:each="company : ${companies}" style="display: flex; flex-direction: row; justify-content: center; align-items: center">
             <strong th:text="'Hello: ' + (${companies.getCompName()}) + '. This is company page!'"></strong>
         </div>
-        <div th:each="company : ${companies}">
-            <a th:href="@{/company/new/{companyId}(companyId=${companies.id})}" class="text-white mx-3">Post a New Job</a>
-            <a href="/company/logout" class="text-white mx-3 btn btn-danger">Logout</a>
-<!--            <a href="#" class="text-white mx-3">Candidates</a>-->
-<!--            <a href="#" class="text-white mx-3">Employers</a>-->
-        </div>
+
     </div>
     <form class="d-flex justify-content-center mt-4" th:action="@{/company}" method="get" style="padding: 10px; column-gap: 10px">
         <input type="text" class="form-control w-50 me-2" placeholder="Job name, or keyword" name="keyword" th:value="${keyword}">
         <button class="btn btn-light" type="submit" name="action">Search</button>
     </form>
 </header>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f8f9fa;">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a th:href="@{/company/new/{companyId}(companyId=${companies.id})}" class="nav-link text-primary mx-3">Post a New Job</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/company/guess-candidate}" class="nav-link text-primary mx-3">Find the suitable Candidates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger fw-bold" th:href="@{/company/logout}"
+                    onclick="return confirm('Are you sure you want to logout?')"
+                    >Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 
 
 <div class="container my-5">
