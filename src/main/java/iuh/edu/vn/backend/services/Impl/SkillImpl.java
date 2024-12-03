@@ -6,6 +6,8 @@ import iuh.edu.vn.backend.services.ISkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SkillImpl implements ISkill {
 
@@ -27,5 +29,10 @@ public class SkillImpl implements ISkill {
     @Override
     public Skill findById(Long id) {
         return skillRepository.findBySkillId(id);
+    }
+
+    @Override
+    public List<String> getSkillNameByJobNameOfCompanyEmail(String name, String email) {
+        return skillRepository.getSkillNameByJobNameOfCompanyEmail(name, email);
     }
 }

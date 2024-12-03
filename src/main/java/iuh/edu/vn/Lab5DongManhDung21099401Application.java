@@ -47,10 +47,10 @@ public class Lab5DongManhDung21099401Application {
 //    @Bean
 //    CommandLineRunner initData() {
 //        return args -> {
-//            String jobNames[] = {"Frontend", "Backend", "Data Analyst", "Business Analyst", "Designer", "Developer"};
-//            String skillNames[] = {"React", "Vue", "Angular", "Figma", "React Native", "NextJS", "PHP", "HTML", "CSS", "JavaScript", "C Sharp", "C++", "Jira", "Ajax", "JSP"};
-//            String[] companies = {"FPT", "VNG", "VCCorp", "Google", "Facebook", "Amazon", "Apple", "Microsoft", "Samsung", "Nokia", "Huawei", "Xiaomi", "Oppo", "Vivo", "Sony", "LG", "HTC", "Asus", "Acer", "Dell"};
-//            String[] candidateNames = {"Nguyen Van A", "Tran Van B", "Le Thi C", "Pham Thi D", "Nguyen Thi E", "Tran Thi F", "Le Van G", "Pham Van H", "Nguyen Van I", "Tran Van K", "Le Thi L", "Pham Thi M", "Nguyen Thi N", "Tran Thi O", "Le Van P", "Pham Van Q", "Nguyen Van R", "Tran Van S", "Le Thi T", "Pham Thi U"};
+//            String jobNames[] = {"Frontend", "Backend", "Data Analyst", "Business Analyst", "Designer", "Developer", "Tester", "DevOps", "Scrum Master", "Product Owner", "Project Manager", "Data Engineer", "Data Scientist", "Machine Learning Engineer", "AI Engineer", "Big Data Engineer", "Database Administrator", "System Administrator", "Network Administrator", "Security Administrator", "Cloud Administrator"};
+//            String skillNames[] = {"React", "Vue", "Angular", "Figma", "React Native", "NextJS", "PHP", "HTML", "CSS", "JavaScript", "C Sharp", "C++", "Jira", "Ajax", "JSP", "Python", "AWS", "Azure", "Google Cloud", "Firebase", "MongoDB", "MySQL", "PostgreSQL", "Oracle", "SQL Server", "SQLite", "MariaDB", "NoSQL", "DynamoDB", "Cassandra", "Hadoop", "Spark", "Kafka", "Hive", "Pig", "HBase", "Zookeeper", "Flume", "Sqoop", "Oozie", "Storm", "Mahout", "R", "SAS", "Excel", "Power BI", "Tableau", "Qlik", "Looker", "Data Studio", "Google Analytics"};
+//            String[] companies = {"FPT", "VNG", "VCCorp", "Google", "Facebook", "Amazon", "Apple", "Microsoft", "Samsung", "Nokia", "Huawei", "Xiaomi", "Oppo", "Vivo", "Sony", "LG", "HTC", "Asus", "Acer", "Dell", "HP", "Lenovo", "IBM", "Oracle", "Cisco", "Intel", "AMD", "Nvidia", "Qualcomm", "Broadcom", "MediaTek", "Realtek", "Marvell", "Micron", "Kingston", "Western Digital", "Seagate", "Toshiba", "Hitachi", "Fujitsu", "NEC", "Panasonic", "Sharp", "TCL", "Hisense", "Skyworth", "Haier", "Midea", "Electrolux", "Bosch", "Siemens", "Philips", "Pioneer", "JBL", "Bose", "Harman Kardon", "Sony", "LG", "Samsung", "Panasonic", "Sharp", "TCL", "Hisense", "Skyworth", "Haier", "Midea", "Electrolux", "Bosch", "Siemens", "Philips", "Pioneer", "JBL", "Bose", "Harman Kardon"};
+////            String[] candidateNames = {"Nguyen Van A", "Tran Van B", "Le Thi C", "Pham Thi D", "Nguyen Thi E", "Tran Thi F", "Le Van G", "Pham Van H", "Nguyen Van I", "Tran Van K", "Le Thi L", "Pham Thi M", "Nguyen Thi N", "Tran Thi O", "Le Van P", "Pham Van Q", "Nguyen Van R", "Tran Van S", "Le Thi T", "Pham Thi U"};
 //            Random rnd = new Random();
 //            for (int i = 1; i < 1000; i++) {
 //                Address add = new Address("Quang Trung", "HCM",
@@ -62,7 +62,7 @@ public class Lab5DongManhDung21099401Application {
 //                Address address = addressRepository.findById(id).orElse(null);
 //                Candidate can = new Candidate(
 //                        LocalDate.of(1998, rnd.nextInt(1, 13), rnd.nextInt(1, 29)),
-//                        "email_" + i + "@gmail.com", candidateNames[rnd.nextInt(candidateNames.length)], rnd.nextLong(1111111111L, 9999999999L) + "", address);
+//                        "email_" + i + "@gmail.com", "Candidate Name " + i , rnd.nextLong(1111111111L, 9999999999L) + "", address);
 //                candidateRepository.save(can);
 //            }
 //            //Add company

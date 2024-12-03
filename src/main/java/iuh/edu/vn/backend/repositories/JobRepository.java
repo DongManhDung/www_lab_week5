@@ -21,4 +21,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 
     @Query("select j from Job j where j.id = :id")
     public Job findByJobId(@Param("id") Long id);
+
+    @Query("select distinct j.jobName from Job j")
+    public List<?> findAllJobDistinct();
 }

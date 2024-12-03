@@ -48,5 +48,10 @@ public class JobImpl implements IJob {
         return jobRepository.findByJobId(id);
     }
 
+    @Override
+    public List<?> findAllJobDistinct() {
+        return jobRepository.findAllJobDistinct();
+    }
+
 
 }

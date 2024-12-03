@@ -1,11 +1,11 @@
 package iuh.edu.vn.backend.enums;
 
 public enum SkillLevel {
-    MASTER("MASTER"),
     BEGINNER("BEGINNER"),
+    INTERMEDIATE("INTERMEDIATE"),
     ADVANCED("ADVANCED"),
     PROFESSIONAL("PROFESSIONAL"),
-    IMTERMEDIATE("IMTERMEDIATE");
+    MASTER("MASTER");
 
     private final String value;
 
@@ -15,5 +15,18 @@ public enum SkillLevel {
 
     public String getValue(){
         return value;
+    }
+
+    public static SkillLevel fromString(String value) {
+        if (value == null) {
+            return null;
+        }
+        String valueUpper = value.toUpperCase();
+        for (SkillLevel level : SkillLevel.values()) {
+            if (level.getValue().equals(valueUpper)) {
+                return level;
+            }
+        }
+        return null;
     }
 }

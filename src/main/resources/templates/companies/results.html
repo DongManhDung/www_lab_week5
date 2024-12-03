@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<header style="background-color: #00800d; color: white;" class="py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a href="#" class="text-white font-weight-bold h5 m-0">
+            <img src="../img/logo.png" alt="Logo" style="height: 100%; object-fit: fill">
+        </a>
+    </div>
+</header>
+<div class="container mt-4 d-flex justify-content-between py-2">
+    <h3>Candidate Suitability Results</h3>
+    <a th:href="@{/company/guess-candidate}" th:text="${'Return'}" class="btn btn-primary"></a>
+</div>
+
+
+<div class="container mt-4">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Num</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Job Name</th>
+            <th>Skill Name</th>
+            <th>Skill Level</th>
+            <th>Is Suitable</th>
+            <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="candidate : ${candidates}">
+            <td th:text="${candidate['index']}"></td>
+            <td th:text="${candidate['email']}"></td>
+            <td th:text="${candidate['name']}"></td>
+            <td th:text="${candidate['job_name']}"></td>
+            <td th:text="${candidate['skill_name']}"></td>
+            <td th:text="${candidate['skill_level']}"></td>
+            <td th:text="${candidate['is_suitable']}"></td>
+            <td>
+                <form action="#" method="post">
+                    <input type="hidden" name="email" th:value="${candidate['email']}"/>
+                    <button type="submit" class="btn btn-primary">Send Mail</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <!-- Previous Button -->
+            <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{'/company/results?page=' + (${page - 1} < 0 ? 0 : ${page - 1}) + '&size=' + ${size}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <!-- Page Numbers -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == page} ? 'active'">
+                <a class="page-link" th:href="@{'/company/results?page=' + ${i} + '&size=' + ${size}}" th:text="${i + 1}"></a>
+            </li>
+
+            <!-- Next Button -->
+            <li class="page-item" th:classappend="${page + 1 >= totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{'/company/results?page=' + (${page + 1} < ${totalPages} ? ${page + 1} : ${totalPages - 1}) + '&size=' + ${size}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+</body>
+</html>

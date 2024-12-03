@@ -12,4 +12,5 @@ public interface IJob {
     public List<Job> findAllJob();
     List<Job> getAllJobAndSkillSuitable(String email);
     Job findById(Long id);
+    public List<?> findAllJobDistinct();
 }
