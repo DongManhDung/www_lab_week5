@@ -50,7 +50,6 @@ public class Lab5DongManhDung21099401Application {
 //            String jobNames[] = {"Frontend", "Backend", "Data Analyst", "Business Analyst", "Designer", "Developer", "Tester", "DevOps", "Scrum Master", "Product Owner", "Project Manager", "Data Engineer", "Data Scientist", "Machine Learning Engineer", "AI Engineer", "Big Data Engineer", "Database Administrator", "System Administrator", "Network Administrator", "Security Administrator", "Cloud Administrator"};
 //            String skillNames[] = {"React", "Vue", "Angular", "Figma", "React Native", "NextJS", "PHP", "HTML", "CSS", "JavaScript", "C Sharp", "C++", "Jira", "Ajax", "JSP", "Python", "AWS", "Azure", "Google Cloud", "Firebase", "MongoDB", "MySQL", "PostgreSQL", "Oracle", "SQL Server", "SQLite", "MariaDB", "NoSQL", "DynamoDB", "Cassandra", "Hadoop", "Spark", "Kafka", "Hive", "Pig", "HBase", "Zookeeper", "Flume", "Sqoop", "Oozie", "Storm", "Mahout", "R", "SAS", "Excel", "Power BI", "Tableau", "Qlik", "Looker", "Data Studio", "Google Analytics"};
 //            String[] companies = {"FPT", "VNG", "VCCorp", "Google", "Facebook", "Amazon", "Apple", "Microsoft", "Samsung", "Nokia", "Huawei", "Xiaomi", "Oppo", "Vivo", "Sony", "LG", "HTC", "Asus", "Acer", "Dell", "HP", "Lenovo", "IBM", "Oracle", "Cisco", "Intel", "AMD", "Nvidia", "Qualcomm", "Broadcom", "MediaTek", "Realtek", "Marvell", "Micron", "Kingston", "Western Digital", "Seagate", "Toshiba", "Hitachi", "Fujitsu", "NEC", "Panasonic", "Sharp", "TCL", "Hisense", "Skyworth", "Haier", "Midea", "Electrolux", "Bosch", "Siemens", "Philips", "Pioneer", "JBL", "Bose", "Harman Kardon", "Sony", "LG", "Samsung", "Panasonic", "Sharp", "TCL", "Hisense", "Skyworth", "Haier", "Midea", "Electrolux", "Bosch", "Siemens", "Philips", "Pioneer", "JBL", "Bose", "Harman Kardon"};
-////            String[] candidateNames = {"Nguyen Van A", "Tran Van B", "Le Thi C", "Pham Thi D", "Nguyen Thi E", "Tran Thi F", "Le Van G", "Pham Van H", "Nguyen Van I", "Tran Van K", "Le Thi L", "Pham Thi M", "Nguyen Thi N", "Tran Thi O", "Le Van P", "Pham Van Q", "Nguyen Van R", "Tran Van S", "Le Thi T", "Pham Thi U"};
 //            Random rnd = new Random();
 //            for (int i = 1; i < 1000; i++) {
 //                Address add = new Address("Quang Trung", "HCM",
@@ -72,7 +71,7 @@ public class Lab5DongManhDung21099401Application {
 //            }
 //
 //
-////            Add job
+//            //Add job
 //            companyRepository.findAll().forEach(company -> {
 //                for (int i = 1; i <= 6; i++) {
 //                    String randomJobNames = jobNames[rnd.nextInt(jobNames.length)];
@@ -81,18 +80,30 @@ public class Lab5DongManhDung21099401Application {
 //                }
 //            });
 //
-//            // Add Skill
-//            for (int i = 1; i <= skillNames.length; i++) {
-//                SkillType type = SkillType.values()[rnd.nextInt(SkillType.values().length)];
-//                Skill skill = new Skill("Skill description #" + i, skillNames[i - 1], type);
-//                skillRepository.save(skill);
+//             //Add Skill
+//        for (int i = 1; i <= skillNames.length; i++) {
+//            int numSkills = rnd.nextInt(3, 6);
+//            List<String> selectedSkills = new ArrayList<>();
+//
+//            while (selectedSkills.size() < numSkills) {
+//                String randomSkill = skillNames[rnd.nextInt(skillNames.length)];
+//                if (!selectedSkills.contains(randomSkill)) {
+//                    selectedSkills.add(randomSkill);
+//                }
 //            }
 //
-//            // Add JobSkill
+//             //Tạo mô hình Skill với nhiều skillName ngẫu nhiên
+//            String skillNameList = String.join(", ", selectedSkills);
+//            SkillType type = SkillType.values()[rnd.nextInt(SkillType.values().length)];
+//            Skill skill = new Skill("Skill description #" + i, skillNameList, type);
+//            skillRepository.save(skill);
+//        }
+//
+//             //Add JobSkill
 //            jobRepository.findAll().forEach(job -> {
 //                List<Skill> skills = skillRepository.findAll();
-//                Collections.shuffle(skills); // Shuffle danh sách skill
-//                for (int i = 0; i < Math.min(skills.size(), 10); i++) { // Add tối đa 10 skill vào mỗi job
+//                Collections.shuffle(skills);
+//                for (int i = 0; i < Math.min(skills.size(), 10); i++) {
 //                    Skill skill = skills.get(i);
 //                    JobSkillId jobSkillId = new JobSkillId(job.getId(), skill.getId());
 //                    JobSkill jobSkill = new JobSkill(jobSkillId, job, skill, "More info #" + i, SkillLevel.values()[rnd.nextInt(SkillLevel.values().length)]);
@@ -103,8 +114,8 @@ public class Lab5DongManhDung21099401Application {
 //            // Add CandidateSkill
 //            candidateRepository.findAll().forEach(candidate -> {
 //                List<Skill> skills = skillRepository.findAll();
-//                Collections.shuffle(skills); // Shuffle danh sách skill
-//                for (int i = 0; i < Math.min(skills.size(), 5); i++) { // Add tối đa 5 skill vào mỗi candidate
+//                Collections.shuffle(skills);
+//                for (int i = 0; i < Math.min(skills.size(), 5); i++) {
 //                    Skill skill = skills.get(i);
 //                    CandidateSkillId candidateSkillId = new CandidateSkillId(candidate.getId(), skill.getId());
 //                    CandidateSkill candidateSkill = new CandidateSkill(candidateSkillId, candidate, skill, "More info #" + i, SkillLevel.values()[rnd.nextInt(SkillLevel.values().length)]);
@@ -113,6 +124,6 @@ public class Lab5DongManhDung21099401Application {
 //            });
 //        };
 //    }
-
-    ;
+//
+//    ;
 }
