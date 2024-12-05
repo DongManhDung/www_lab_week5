@@ -94,8 +94,6 @@ public class MLService {
     }
 
 
-
-
     // Lưu mô hình sau khi huấn luyện
     public void saveModel(Classifier model, String modelPath) throws Exception {
         FileOutputStream fos = new FileOutputStream(modelPath);
@@ -103,9 +101,4 @@ public class MLService {
         oos.writeObject(model);
         oos.close();
     }
-
-
-
-
-
 }

@@ -13,6 +13,12 @@
         </a>
     </div>
 </header>
+
+<!--Chart here-->
+<div class="container mt-4">
+    <canvas id="skillLevelChart"></canvas>
+</div>
+
 <div class="container mt-4 d-flex justify-content-between py-2">
     <h3>Candidate Suitability Results</h3>
     <a th:href="@{/company/guess-candidate}" th:text="${'Return'}" class="btn btn-primary"></a>
@@ -20,7 +26,7 @@
 
 
 <div class="container mt-4">
-    <table class="table table-striped">
+    <table class="table table-striped text-center">
         <thead>
         <tr>
             <th>Num</th>
@@ -28,7 +34,7 @@
             <th>Name</th>
             <th>Job Name</th>
             <th>Skill Name</th>
-            <th>Skill Level</th>
+            <th>Highest Level</th>
             <th>Is Suitable</th>
             <th>Option</th>
         </tr>
@@ -57,27 +63,54 @@
         <ul class="pagination justify-content-center">
             <!-- Previous Button -->
             <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{'/company/results?page=' + (${page - 1} < 0 ? 0 : ${page - 1}) + '&size=' + ${size}}" aria-label="Previous">
+                <a class="page-link" th:href="@{'/company/results?page=' + (${page > 0} ? ${page} - 1 : 0) + '&size=' + ${size}}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
             <!-- Page Numbers -->
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == page} ? 'active'">
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages != null ? totalPages - 1 : 0)}" th:classappend="${i == page} ? 'active'">
                 <a class="page-link" th:href="@{'/company/results?page=' + ${i} + '&size=' + ${size}}" th:text="${i + 1}"></a>
             </li>
 
             <!-- Next Button -->
             <li class="page-item" th:classappend="${page + 1 >= totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{'/company/results?page=' + (${page + 1} < ${totalPages} ? ${page + 1} : ${totalPages - 1}) + '&size=' + ${size}}" aria-label="Next">
+                <a class="page-link" th:href="@{'/company/results?page=' + (${page + 1 < totalPages} ? ${page} + 1 : ${totalPages - 1}) + '&size=' + ${size}}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
+
+
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    const skillLevelData = /*[[${skillLevelCounts}]]*/ {};
+    const labels = Object.keys(skillLevelData);
+    const data = Object.values(skillLevelData);
 
+    const ctx = document.getElementById('skillLevelChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Candidates',
+                data: data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: 'Skill Level' } },
+                y: { title: { display: true, text: 'Number of Candidates' } }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
