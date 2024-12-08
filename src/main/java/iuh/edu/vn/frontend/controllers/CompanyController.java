@@ -6,10 +6,8 @@ import iuh.edu.vn.backend.ids.JobSkillId;
 import iuh.edu.vn.backend.machineLearning.MLService;
 import iuh.edu.vn.backend.machineLearning.ModelTrainer;
 import iuh.edu.vn.backend.models.*;
-import iuh.edu.vn.backend.repositories.CompanyRepository;
-import iuh.edu.vn.backend.repositories.JobRepository;
-import iuh.edu.vn.backend.repositories.JobSkillRepository;
-import iuh.edu.vn.backend.repositories.SkillRepository;
+import iuh.edu.vn.backend.models.mailEntity.Email;
+import iuh.edu.vn.backend.repositories.*;
 import iuh.edu.vn.backend.services.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import weka.core.Instances;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -54,6 +53,9 @@ public class CompanyController {
 
     @Autowired
     private IEmail emailService;
+
+    @Autowired
+    private EmailRepository emailRepository;
 
 
     @GetMapping()
@@ -414,6 +416,14 @@ public class CompanyController {
             emailService.sendEmail(candidateEmail, subject, body);
             System.out.println("Email sent successfully.");
             redirectAttributes.addFlashAttribute("success", "Email sent successfully.");
+
+            Email email = new Email(companyEmail, candidateEmail, subject , body, LocalDateTime.now());
+            email.setReceiver(candidateEmail);
+            email.setSender(companyEmail);
+            email.setContent(body);
+            email.setSubject(subject);
+            email.setTimeStamp(LocalDateTime.now());
+            emailRepository.save(email);
 
         } catch (Exception e) {
             e.printStackTrace();
