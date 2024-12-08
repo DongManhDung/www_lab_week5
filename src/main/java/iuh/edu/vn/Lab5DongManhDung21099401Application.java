@@ -1,6 +1,7 @@
 package iuh.edu.vn;
 
 import com.neovisionaries.i18n.CountryCode;
+import iuh.edu.vn.backend.converters.ARFFExporter;
 import iuh.edu.vn.backend.enums.SkillLevel;
 import iuh.edu.vn.backend.enums.SkillType;
 import iuh.edu.vn.backend.ids.CandidateSkillId;
@@ -12,7 +13,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -45,7 +49,7 @@ public class Lab5DongManhDung21099401Application {
     private CandidateSkillRepository candidateSkillRepository;
 
 //    @Bean
-//    CommandLineRunner initData() {
+//    CommandLineRunner initData(JdbcTemplate jdbcTemplate) {
 //        return args -> {
 //            String jobNames[] = {"Frontend", "Backend", "Data Analyst", "Business Analyst", "Designer", "Developer", "Tester", "DevOps", "Scrum Master", "Product Owner", "Project Manager", "Data Engineer", "Data Scientist", "Machine Learning Engineer", "AI Engineer", "Big Data Engineer", "Database Administrator", "System Administrator", "Network Administrator", "Security Administrator", "Cloud Administrator"};
 //            String skillNames[] = {"React", "Vue", "Angular", "Figma", "React Native", "NextJS", "PHP", "HTML", "CSS", "JavaScript", "C Sharp", "C++", "Jira", "Ajax", "JSP", "Python", "AWS", "Azure", "Google Cloud", "Firebase", "MongoDB", "MySQL", "PostgreSQL", "Oracle", "SQL Server", "SQLite", "MariaDB", "NoSQL", "DynamoDB", "Cassandra", "Hadoop", "Spark", "Kafka", "Hive", "Pig", "HBase", "Zookeeper", "Flume", "Sqoop", "Oozie", "Storm", "Mahout", "R", "SAS", "Excel", "Power BI", "Tableau", "Qlik", "Looker", "Data Studio", "Google Analytics"};
@@ -80,26 +84,26 @@ public class Lab5DongManhDung21099401Application {
 //                }
 //            });
 //
-//             //Add Skill
-//        for (int i = 1; i <= skillNames.length; i++) {
-//            int numSkills = rnd.nextInt(3, 6);
-//            List<String> selectedSkills = new ArrayList<>();
+//            //Add Skill
+//            for (int i = 1; i <= skillNames.length; i++) {
+//                int numSkills = rnd.nextInt(3, 6);
+//                List<String> selectedSkills = new ArrayList<>();
 //
-//            while (selectedSkills.size() < numSkills) {
-//                String randomSkill = skillNames[rnd.nextInt(skillNames.length)];
-//                if (!selectedSkills.contains(randomSkill)) {
-//                    selectedSkills.add(randomSkill);
+//                while (selectedSkills.size() < numSkills) {
+//                    String randomSkill = skillNames[rnd.nextInt(skillNames.length)];
+//                    if (!selectedSkills.contains(randomSkill)) {
+//                        selectedSkills.add(randomSkill);
+//                    }
 //                }
+//
+//                //Tạo mô hình Skill với nhiều skillName ngẫu nhiên
+//                String skillNameList = String.join(", ", selectedSkills);
+//                SkillType type = SkillType.values()[rnd.nextInt(SkillType.values().length)];
+//                Skill skill = new Skill("Skill description #" + i, skillNameList, type);
+//                skillRepository.save(skill);
 //            }
 //
-//             //Tạo mô hình Skill với nhiều skillName ngẫu nhiên
-//            String skillNameList = String.join(", ", selectedSkills);
-//            SkillType type = SkillType.values()[rnd.nextInt(SkillType.values().length)];
-//            Skill skill = new Skill("Skill description #" + i, skillNameList, type);
-//            skillRepository.save(skill);
-//        }
-//
-//             //Add JobSkill
+//            //Add JobSkill
 //            jobRepository.findAll().forEach(job -> {
 //                List<Skill> skills = skillRepository.findAll();
 //                Collections.shuffle(skills);
@@ -122,8 +126,23 @@ public class Lab5DongManhDung21099401Application {
 //                    candidateSkillRepository.save(candidateSkill);
 //                }
 //            });
+//
+//
+//            // Lưu file ARFF
+//            ARFFExporter arffExporter = new ARFFExporter(jdbcTemplate);
+//            String relativePath = "src/main/resources/data/company_data.arff";
+//            File file = new File(relativePath);
+//            File directory = file.getParentFile();
+//            if (!directory.exists()) {
+//                directory.mkdirs();
+//            }
+//            try {
+//                arffExporter.exportDataToARFF(file.getAbsolutePath());
+//                System.out.println("File ARFF đã được xuất tại: " + file.getAbsolutePath());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                System.out.println("Có lỗi xảy ra khi xuất file ARFF!");
+//            }
 //        };
 //    }
-//
-//    ;
 }
