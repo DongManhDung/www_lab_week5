@@ -93,7 +93,7 @@
     </div>
     <!-- Paging container -->
     <div class="inline" style="width: 100%; height: 50px; justify-content: center; align-items: center; flex-direction: row; display: flex">
-        <div style="width: 50%; height: 100%" th:if="${jobSkillPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
+        <div style="width: 50%; height: 100%; padding: 1px" th:if="${jobSkillPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
             <a th:href="@{/company(size=${jobSkillPage.size}, page=${pageNumber}, keyword=${keyword})}"
                th:text="${pageNumber}"
                th:class="${pageNumber == jobSkillPage.number + 1} ? 'active' : ''"></a>

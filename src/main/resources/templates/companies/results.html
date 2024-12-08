@@ -49,8 +49,9 @@
             <td th:text="${candidate['skill_level']}"></td>
             <td th:text="${candidate['is_suitable']}"></td>
             <td>
-                <form action="#" method="post">
-                    <input type="hidden" name="email" th:value="${candidate['email']}"/>
+                <form th:action="@{/company/send-email}" method="post">
+                    <input type="hidden" name="candidateEmail" th:value="${candidate['email']}"/>
+                    <input type="hidden" name="candidateName" th:value="${candidate['name']}"/>
                     <button type="submit" class="btn btn-primary">Send Mail</button>
                 </form>
             </td>

@@ -36,6 +36,12 @@ dependencies {
     // https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable
     implementation 'nz.ac.waikato.cms.weka:weka-stable:3.8.6'
 
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail:3.4.0'
+
+
+
+
 
 }
 

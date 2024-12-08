@@ -10,16 +10,14 @@ import iuh.edu.vn.backend.repositories.CompanyRepository;
 import iuh.edu.vn.backend.repositories.JobRepository;
 import iuh.edu.vn.backend.repositories.JobSkillRepository;
 import iuh.edu.vn.backend.repositories.SkillRepository;
-import iuh.edu.vn.backend.services.ICompany;
-import iuh.edu.vn.backend.services.IJob;
-import iuh.edu.vn.backend.services.IJobSkill;
-import iuh.edu.vn.backend.services.ISkill;
+import iuh.edu.vn.backend.services.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.Instances;
@@ -53,6 +51,9 @@ public class CompanyController {
     private JobSkillRepository jobSkillRepository;
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private IEmail emailService;
 
 
     @GetMapping()
@@ -334,6 +335,9 @@ public class CompanyController {
 
                         candidates.addAll(candidateMap.values());
 
+                        candidates.sort((c1, c2) -> compareSkillLevel((String) c1.get("skill_level"), (String) c2.get("skill_level")));
+
+
                         // Paging
                         int totalPages = (int) Math.ceil((double) candidates.size() / size);
                         int start = page * size;
@@ -383,6 +387,40 @@ public class CompanyController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @PostMapping("/send-email")
+    public String sendEmail(@RequestParam("candidateName") String candidateName,
+                            @RequestParam("candidateEmail") String candidateEmail,
+                            HttpSession session,
+                            RedirectAttributes redirectAttributes) {
+        try {
+            String companyEmail = (String) session.getAttribute("email");
+
+            if (companyEmail == null) {
+                redirectAttributes.addFlashAttribute("error", "You are not logged in.");
+                return "redirect:/company/results";
+            }
+
+            String subject = "Invitation to Apply for a Job";
+            String body = String.format(
+                    "Dear %s,\n\n" +
+                            "We are pleased to inform you that your profile matches our job requirements. " +
+                            "We would like to invite you to further discussions.\n\n" +
+                            "Best regards,\n%s (Company)",
+                    candidateName, companyEmail);
+
+            // Gửi email
+            emailService.sendEmail(candidateEmail, subject, body);
+            System.out.println("Email sent successfully.");
+            redirectAttributes.addFlashAttribute("success", "Email sent successfully.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "An error occurred while sending the email.");
+            System.out.println("An error occurred while sending the email.");
+        }
+        return "redirect:/company/results";
     }
 
 

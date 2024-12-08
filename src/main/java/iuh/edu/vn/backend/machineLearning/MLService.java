@@ -78,15 +78,15 @@ public class MLService {
 
     private int convertSkillLevelToNumber(String skillLevel) {
         switch (skillLevel.toUpperCase()) {
-            case "MASTER":
-                return 1;
             case "BEGINNER":
+                return 1;
+            case "INTERMEDIATE":
                 return 2;
             case "ADVANCED":
                 return 3;
             case "PROFESSIONAL":
                 return 4;
-            case "IMTERMEDIATE":
+            case "MASTER":
                 return 5;
             default:
                 return 0;
