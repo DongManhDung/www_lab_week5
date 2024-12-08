@@ -11,6 +11,7 @@ import weka.core.converters.ArffSaver;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -95,14 +96,19 @@ public class ARFFExporter {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(data);
 
-        // Xác định đường dẫn tương đối
         File outputFile = new File(relativeFilePath);
+        if (outputFile.exists()) {
+            System.out.println("File ARFF đã tồn tại. Đang xóa file cũ...");
+            Files.delete(outputFile.toPath());
+        }
+
         if (!outputFile.getParentFile().exists()) {
             outputFile.getParentFile().mkdirs(); // Tạo thư mục nếu chưa tồn tại
         }
+
         saver.setFile(outputFile);
         saver.writeBatch();
 
-//        System.out.println("File ARFF đã được lưu tại: " + outputFile.getAbsolutePath());
+//        System.out.println("File ARFF mới đã được tạo tại: " + outputFile.getAbsolutePath());
     }
 }
