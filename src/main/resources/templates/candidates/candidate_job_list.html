@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>List of job</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
     <style>
         div.inline {
@@ -40,6 +42,12 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link btn btn-primary text-white px-3" href="/candidates/logout">Logout</a>
+                        </li>
+
+                        <li class="nav-item ml-2">
+                            <a class="btn btn-light" style="border: none;" th:href="@{/candidates/inbox}">
+                                <i class="fas fa-envelope" style="font-size: 1.2rem; color: #00800d;"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -86,6 +94,7 @@
                     <p class="card-text">Web URL: <strong th:text="${jobSkill.job.company.webUrl}"></strong></p>
                     <p class="card-text">Location: <strong th:text="${jobSkill.job.company.address.street} + ' street, ' + ${jobSkill.job.company.address.city} + ' city.'"></strong></p>
                     <a href="#" class="btn btn-primary">View Details</a>
+                    <a href="#" class="btn btn-primary" style="background-color: #00800d">Apply now</a>
                 </div>
             </div>
         </div>
@@ -99,6 +108,38 @@
         </div>
     </div>
 </div>
+
+<footer style="background-color: #00800d; color: white;" class="py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>About us</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Regional Employment</h5>
+                <p><i class="fas fa-map-marker-alt"></i>Ho Chi Minh</p>
+                <p><i class="fas fa-phone"></i>Ha Noi</p>
+                <p><i class="fas fa-envelope"></i>Hai Phong</p>
+                <p><i class="fas fa-envelope"></i>Da Nang</p>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Contact</h5>
+                <p><i class="fas fa-map-marker-alt"></i> 123 ABC Street, Ward 1, Go Vap District , HCM City</p>
+                <p><i class="fas fa-phone"></i> +84 123 456 789</p>
+                <p><i class="fas fa-envelope"></i> info@example.com</p>
+            </div>
+
+
+        </div>
+        <hr class="bg-light">
+        <div class="text-center">
+            &copy; 2024 TonTonJob. All Rights Reserved.
+        </div>
+    </div>
+</footer>
 
 
 

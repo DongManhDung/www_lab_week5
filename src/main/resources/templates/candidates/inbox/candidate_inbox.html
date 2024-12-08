@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Inbox</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<header style="background-color: #00800d; color: white;" class="py-2">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a href="#" class="text-white font-weight-bold h5 m-0">
+      <img src="../img/logo.png" alt="Logo" style="height: 100%; object-fit: fill">
+    </a>
+    <div th:each="candidate : ${candidates}" style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+      <strong th:text="'Hello: ' + (${candidate.getFullName()}) + '. Welcome to our company!'"></strong>
+      <nav class="navbar navbar-expand-lg">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link btn btn-primary text-white px-3" href="/candidates/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+<div class="container mt-4">
+  <h3>Your Inbox</h3>
+  <div class="row" th:each="email : ${emails}">
+    <div class="col-12 mb-3">
+      <div class="card" style="cursor: pointer;" data-toggle="modal"
+           th:data-target="'#emailModal' + ${email.id}"
+           th:title="'Click to read full email'">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${email.sender}"></h5>
+          <p class="card-text text-truncate" style="max-width: 400px;"
+             th:text="${email.content}">
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for full email -->
+    <div class="modal fade" th:id="'emailModal' + ${email.id}" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="emailModalLabel" th:text="'From: ' + ${email.sender}"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="color: red">&times;</span>
+            </button>
+          </div>
+          <div class="modal-header">
+            <h5 class="modal-title" id="emailModalLabel2" th:text="'To: ' + ${email.receiver}"></h5>
+          </div>
+          <div class="modal-body">
+            <p th:text="${email.content}"></p><br>
+            <h4>Your Job Is Suitable: </h4>
+            <p th:text="'Job Name: ' + ${email.jobName}"></p>
+            <p th:text="'Skill Name: ' + ${email.skillName}"></p>
+            <p th:text="'Status: ' + ${email.isSelected}" style="color: green"></p>
+            <p th:text="'Time Scheduled: ' + ${email.timeStamp.getDayOfMonth()} + '/' + ${email.timeStamp.getMonth().getValue()} + '/' + ${email.timeStamp.getYear()} + ' - ' + ${#numbers.formatDecimal(email.timeStamp.getHour(), 2, 0)} + ':' + ${#numbers.formatDecimal(email.timeStamp.getMinute(), 2, 0)} + ':' + ${#numbers.formatDecimal(email.timeStamp.getSecond(), 2, 0)}" style="color: red"></p>
+          </div><br>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

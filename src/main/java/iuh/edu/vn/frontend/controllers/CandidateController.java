@@ -3,7 +3,9 @@ package iuh.edu.vn.frontend.controllers;
 import iuh.edu.vn.backend.models.Candidate;
 import iuh.edu.vn.backend.models.CandidateSkill;
 import iuh.edu.vn.backend.models.JobSkill;
+import iuh.edu.vn.backend.models.mailEntity.Email;
 import iuh.edu.vn.backend.repositories.CandidateRepository;
+import iuh.edu.vn.backend.repositories.EmailRepository;
 import iuh.edu.vn.backend.services.ICandidate;
 import iuh.edu.vn.backend.services.ICandidateSkill;
 import iuh.edu.vn.backend.services.IJobSkill;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +48,8 @@ public class CandidateController {
 
     @Autowired
     private ICandidateSkill iCandidateSkill;
+    @Autowired
+    private EmailRepository emailRepository;
 
 
 //    @GetMapping({"/listCandidate"})
@@ -84,6 +89,15 @@ public class CandidateController {
         return "candidates/candidate_job_list";
     }
 
+    @GetMapping("/inbox")
+    public String inbox(Model model, HttpSession session) {
+        String email = (String) session.getAttribute("email");
+
+        List<Email> emails = emailRepository.findByReceiver(email);
+        model.addAttribute("emails", emails);
+        model.addAttribute("candidates", iCandidate.getFullNameByEmail(email));
+        return "candidates/inbox/candidate_inbox";
+    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
