@@ -394,6 +394,8 @@ public class CompanyController {
     @PostMapping("/send-email")
     public String sendEmail(@RequestParam("candidateName") String candidateName,
                             @RequestParam("candidateEmail") String candidateEmail,
+                            @RequestParam("jobName") String jobName,
+                            @RequestParam("skillName") String skillName,
                             HttpSession session,
                             RedirectAttributes redirectAttributes) {
         try {
@@ -417,7 +419,7 @@ public class CompanyController {
             System.out.println("Email sent successfully.");
             redirectAttributes.addFlashAttribute("success", "Email sent successfully.");
 
-            Email email = new Email(companyEmail, candidateEmail, subject , body, LocalDateTime.now());
+            Email email = new Email(companyEmail, candidateEmail, subject , body, jobName, skillName ,"Accepted",LocalDateTime.now());
             email.setReceiver(candidateEmail);
             email.setSender(companyEmail);
             email.setContent(body);

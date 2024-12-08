@@ -18,16 +18,22 @@ public class Email {
     private String receiver;
     private String subject;
     private String content;
+    private String jobName;
+    private String skillName;
+    private String isSelected;
     private LocalDateTime timeStamp;
 
     public Email() {
     }
 
-    public Email(String sender, String receiver, String subject, String content, LocalDateTime timeStamp) {
+    public Email(String sender, String receiver, String subject, String content, String jobName, String skillName, String isSelected, LocalDateTime timeStamp) {
         this.sender = sender;
         this.receiver = receiver;
         this.subject = subject;
         this.content = content;
+        this.jobName = jobName;
+        this.skillName = skillName;
+        this.isSelected = isSelected;
         this.timeStamp = timeStamp;
     }
 
@@ -79,15 +85,42 @@ public class Email {
         this.subject = subject;
     }
 
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+    public String getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(String isSelected) {
+        this.isSelected = isSelected;
+    }
+
     @Override
     public String toString() {
         return "Email{" +
-                "sender='" + sender + '\'' +
+                "id=" + id +
+                ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +
                 ", subject='" + subject + '\'' +
                 ", content='" + content + '\'' +
+                ", jobName='" + jobName + '\'' +
+                ", skillName='" + skillName + '\'' +
+                ", isSelected='" + isSelected + '\'' +
                 ", timeStamp=" + timeStamp +
-                ", id=" + id +
                 '}';
     }
 

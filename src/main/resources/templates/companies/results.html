@@ -52,6 +52,8 @@
                 <form th:action="@{/company/send-email}" method="post">
                     <input type="hidden" name="candidateEmail" th:value="${candidate['email']}"/>
                     <input type="hidden" name="candidateName" th:value="${candidate['name']}"/>
+                    <input type="hidden" name="jobName" th:value="${candidate['job_name']}"/>
+                    <input type="hidden" name="skillName" th:value="${candidate['skill_name']}"/>
                     <button type="submit" class="btn btn-primary">Send Mail</button>
                 </form>
             </td>
