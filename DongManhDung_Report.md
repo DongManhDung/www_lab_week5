@@ -2,7 +2,7 @@
 
 
 ## Thông tin sinh viên thực hiện
-- **Họ và tên:** Đổng Mạnh Dũng
+- **Họ và tên:** Đồng Mạnh Dũng
 - **MSSV:** 21099401
 - **Lớp:** DHKTPM17C - K17 - Khoa Công Nghệ Thông Tin
 - **Môn học**: Lập trình WWW - Java
@@ -124,7 +124,7 @@
   - **Tính năng tự động đồng bộ hóa dữ liệu khai thác**: Dữ liệu được tự động đồng bộ hóa từ file arff, giúp quá trình khai thác dữ liệu dễ dàng hơn.
 
   ### 2. Nhược điểm:
-  - **Chưa hoàn thiện**: Một số chức năng còn hạn chế, giao diện chưa tối ưu, khó khăn trong áp dụng kết hợp nhiều thuật toán Machine Learning
+  - **Chưa hoàn thiện**: Một số chức năng theo yêu cầu còn hạn chế, giao diện chưa tối ưu, khó khăn trong áp dụng kết hợp nhiều thuật toán Machine Learning
   - **Dữ liệu lớn**: Vì tổng hợp dữ liệu qua file xử lý nên dữ liệu khá lớn
   - **Chưa tối ưu bảo mật**: Chưa tối ưu hóa quá trình bảo mật (Security)
 
